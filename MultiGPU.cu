@@ -142,10 +142,13 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
     checkCudaErrors(cudaMallocHost((void **)&recv_u, DW * sizeof(float)));
     checkCudaErrors(cudaMallocHost((void **)&recv_d, DW * sizeof(float)));
 
+    memset(recv_u, 0, DW*sizeof(float));
+    memset(recv_d, 0, DW*sizeof(float));
+
     //Subdividing total data across GPUs, Create streams for issuing GPU command asynchronously and allocate memory (GPU and System page-locked) 
     for (i = 0; i < GPU_N; i++){
 
-	G[i].fai_h = fai + i * (H / GPU_N) * W;
+	    G[i].fai_h = fai + i * (H / GPU_N) * W;
         G[i].flag = 2;
 	    //set device
         checkCudaErrors(cudaSetDevice(i));
