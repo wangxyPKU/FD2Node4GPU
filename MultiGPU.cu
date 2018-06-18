@@ -263,8 +263,8 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
     	//Set device
     	checkCudaErrors(cudaSetDevice(i));
     	//Read back final data from GPU
-    	checkCudaErrors(cudaMemcpy2DAsync(fai + G[i].hoa, W * sizeof(float), G[i].fai_d + DWP , pitch, 
-										  DW * sizeof(float), DH-2, cudaMemcpyDeviceToHost, G[i].stream)); 
+    	checkCudaErrors(cudaMemcpy2D(fai + G[i].hoa, W * sizeof(float), G[i].fai_d + DWP , pitch, 
+										  DW * sizeof(float), DH-2, cudaMemcpyDeviceToHost)); 
     }
 
     //Process GPU results
