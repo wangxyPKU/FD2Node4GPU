@@ -262,17 +262,17 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
     for (i = 0; i < GPU_N; i++){
     	//Set device
     	checkCudaErrors(cudaSetDevice(i));
+        //Wait for all operations to finish
+        cudaStreamSynchronize(G[i].stream);
     	//Read back final data from GPU
     	checkCudaErrors(cudaMemcpy2D(fai + G[i].hoa, W * sizeof(float), G[i].fai_d + DWP , pitch, 
-										  DW * sizeof(float), DH-2, cudaMemcpyDeviceToHost)); 
+									 DW * sizeof(float), DH-2, cudaMemcpyDeviceToHost)); 
     }
 
     //Process GPU results
     for (i = 0; i < GPU_N; i++){
         //Set device
         checkCudaErrors(cudaSetDevice(i));
-		//Wait for all operations to finish
-        cudaStreamSynchronize(G[i].stream);
         //Shut down this GPU
         checkCudaErrors(cudaFreeHost(G[i].send_u));
         checkCudaErrors(cudaFreeHost(G[i].send_d));
