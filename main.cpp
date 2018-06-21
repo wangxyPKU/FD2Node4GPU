@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 		//cout<<"MPI initialization time is "<<timeuse4<<"s"<<endl;
 		//cout<<"Total time except MPI intialization is "<<timeuse3<<"s"<<endl; 
 		//cout<<"Total time is "<<timeuse2<<"s"<<endl;
-		cout<<"End/n"<<endl;
+		cout<<"End\n"<<endl;
 	}
 
 	MPI_Finalize();
