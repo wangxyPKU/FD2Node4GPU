@@ -132,7 +132,7 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
         GPU_N = MAX_GPU_COUNT;
     }
 
-    cout<<"CUDA-capable device count: "<<GPU_N<<endl;
+    cout<<"Process "<<my_rank<<" CUDA-capable device count: "<<GPU_N<<endl;
 
     //Get data sizes for each GPU
     DH = H / GPU_N + 2;
