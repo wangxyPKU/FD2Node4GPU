@@ -190,7 +190,7 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
         checkCudaErrors(cudaSetDevice(i));
         //Copy initial data from CPU
 		checkCudaErrors(cudaMemcpy2D(G[i].fai_d, pitch, G[i].fai_h, DW * sizeof(float), DW * sizeof(float), DH, cudaMemcpyHostToDevice));		
-		//heckCudaErrors(cudaMemcpy2D(G[i].fai_d_n, pitch, G[i].fai_h, DW * sizeof(float), DW * sizeof(float), DH, cudaMemcpyHostToDevice, G[i].stream));
+		checkCudaErrors(cudaMemcpy2D(G[i].fai_d_n, pitch, G[i].fai_h, DW * sizeof(float), DW * sizeof(float), DH, cudaMemcpyHostToDevice));
     }
 
     //Launch the kernel and copy boundary data back. All asynchronously
