@@ -219,19 +219,27 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
         MPI_Barrier(MPI_COMM_WORLD);
 
         if(my_rank==0){
-            MPI_Send(G[1].send_d, DW, MPI_FLOAT, 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(recv_d, DW, MPI_FLOAT, 1, 1, MPI_COMM_WORLD, &status);
+            MPI_Sendrecv(G[i].send_d, DW, MPI_FLOAT, 1, 0, 
+                         recv_d, DW, MPI_FLOAT, 1, 1, MPI_COMM_WORLD, &status);
+ //          MPI_Send(G[1].send_d, DW, MPI_FLOAT, 1, 0, MPI_COMM_WORLD);
+ //          MPI_Recv(recv_d, DW, MPI_FLOAT, 1, 1, MPI_COMM_WORLD, &status);
         }
 
         else if(my_rank==comm_sz-1){
-            MPI_Send(G[0].send_u, DW, MPI_FLOAT, my_rank-1, 1, MPI_COMM_WORLD);
-            MPI_Recv(recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
+            MPI_Sendrecv(G[i].send_u, DW, MPI_FLOAT, my_rank-1, 1, 
+                         recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
+ //           MPI_Send(G[0].send_u, DW, MPI_FLOAT, my_rank-1, 1, MPI_COMM_WORLD);
+ //           MPI_Recv(recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
         }
         else{
-            MPI_Send(G[0].send_u, DW, MPI_FLOAT, my_rank-1, 1, MPI_COMM_WORLD);
-            MPI_Recv(recv_d, DW, MPI_FLOAT, my_rank+1, 1, MPI_COMM_WORLD, &status);
-            MPI_Send(G[1].send_d, DW, MPI_FLOAT, my_rank+1, 0, MPI_COMM_WORLD);
-            MPI_Recv(recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
+            MPI_Sendrecv(G[0].send_u, DW, MPI_FLOAT, my_rank-1, 1, 
+                         recv_d, DW, MPI_FLOAT, my_rank+1, 1, MPI_COMM_WORLD, &status);
+            MPI_Sendrecv(G[0].send_d, DW, MPI_FLOAT, my_rank+1, 0, 
+                         recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
+//            MPI_Send(G[0].send_u, DW, MPI_FLOAT, my_rank-1, 1, MPI_COMM_WORLD);
+//            MPI_Recv(recv_d, DW, MPI_FLOAT, my_rank+1, 1, MPI_COMM_WORLD, &status);
+//            MPI_Send(G[1].send_d, DW, MPI_FLOAT, my_rank+1, 0, MPI_COMM_WORLD);
+//            MPI_Recv(recv_u, DW, MPI_FLOAT, my_rank-1, 0, MPI_COMM_WORLD, &status);
         }
 
         //Write new boundary value to GPU
