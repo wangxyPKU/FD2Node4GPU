@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 
 	//get the name of each node
 	MPI_Get_processor_name(processor_name,&name_len);
-	cout<<"\nProcess "<<my_rank<<" runs on "<<processor_name<<endl;
+	cout<<"Process "<<my_rank<<" runs on "<<processor_name<<endl;
 
 	//initialize data by root node
 	dataSizeTotal=(M+2)*N;
@@ -99,13 +99,14 @@ int main(int argc, char* argv[])
 	//timeuse3=end2.tv_sec-start.tv_sec + (end2.tv_usec-start.tv_usec)/1e6;
 	//timeuse4=start.tv_sec-start2.tv_sec + (start.tv_usec-start2.tv_usec)/1e6;
 
-	cout<<"Calculation time used by process "<<my_rank<<" running on "<<processor_name<<" is: "<<timeuse<<"s\n"<<endl;
-/*	if(my_rank==0){
-		cout<<"MPI initialization time is "<<timeuse4<<"s"<<endl;
-		cout<<"Total time except MPI intialization is "<<timeuse3<<"s"<<endl; 
-		cout<<"Total time is "<<timeuse2<<"s"<<endl;
+	cout<<"Calculation time used by process "<<my_rank<<" running on "<<processor_name<<" is: "<<timeuse<<"s"<<endl;
+	if(my_rank==0){
+		//cout<<"MPI initialization time is "<<timeuse4<<"s"<<endl;
+		//cout<<"Total time except MPI intialization is "<<timeuse3<<"s"<<endl; 
+		//cout<<"Total time is "<<timeuse2<<"s"<<endl;
+		cout<<"End/n"<<endl;
 	}
-*/
+
 	MPI_Finalize();
 	return 0;
 }
