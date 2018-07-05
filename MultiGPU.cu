@@ -64,30 +64,41 @@ __device__ float SingleFai(float *fai, unsigned int i,unsigned int j,size_t pitc
 }
 
 
+__device__ float WestTime(float *fai, unsigned int j)
+{
+    for(int k=0; k<10000; k++){
+        fai[j] += 1;
+    }
+    for(int k=0; k<10000; k++){
+        fai[j] = fai[j]-1;
+    }
+    return fai[j];
+}
+
 __global__ void SingleNodeFaiIter(float *fai, float *fai_n, size_t pitch, int H, int W, int flag) 
 {
 	//unsigned int i = blockDim.y*blockIdx.y + threadIdx.y;
 	//unsigned int j = blockDim.x*blockIdx.x + threadIdx.x;
-    float temp;
-    int k;
-    for(k=0;k<10000000;k++){
-        temp = k/2*1.5;
-        temp = temp/2;
-    }
 	for (int i = blockDim.y*blockIdx.y + threadIdx.y; i < H; i += blockDim.y*gridDim.y) {
 		float *fai_row_n = (float*)((char*)fai_n + i*pitch);
 		for (int j = blockDim.x*blockIdx.x + threadIdx.x; j < W; j += blockDim.x*gridDim.x) {
 			if(flag==0){
-				if (i > 1 && i < H - 1 && j > 0 && j < W - 1)
+				if (i > 1 && i < H - 1 && j > 0 && j < W - 1){
 				    fai_row_n[j] = SingleFai(fai, i, j, pitch);
+                    fai_row_n[j] = WestTime(fai_row_n, j);
+                }
 			}
 			else if(flag==1){
-				if (i > 0 && i < H - 2 && j > 0 && j < W - 1)
+				if (i > 0 && i < H - 2 && j > 0 && j < W - 1){
 				    fai_row_n[j] = SingleFai(fai, i, j, pitch);
+                    fai_row_n[j] = WestTime(fai_row_n, j);
+                }
 			}
             else{
-                if (i > 0 && i < H - 1 && j > 0 && j < W - 1)
+                if (i > 0 && i < H - 1 && j > 0 && j < W - 1){
                     fai_row_n[j] = SingleFai(fai, i, j, pitch);
+                    fai_row_n[j] = WestTime(fai_row_n, j);
+                }
             }
 		}
 	}
