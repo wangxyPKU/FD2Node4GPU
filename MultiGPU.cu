@@ -70,7 +70,7 @@ __global__ void SingleNodeFaiIter(float *fai, float *fai_n, size_t pitch, int H,
 	//unsigned int j = blockDim.x*blockIdx.x + threadIdx.x;
     float temp;
     int k;
-    for(k=0;k<100;k++){
+    for(k=0;k<1000;k++){
         temp = k*k;
         temp = temp/2;
         temp = temp/2;
