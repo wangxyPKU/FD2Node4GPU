@@ -71,7 +71,8 @@ __global__ void SingleNodeFaiIter(float *fai, float *fai_n, size_t pitch, int H,
     float temp;
     int k;
     for(k=0;k<10000000;k++){
-
+        temp = k/2*1.5;
+        temp = temp/2;
     }
 	for (int i = blockDim.y*blockIdx.y + threadIdx.y; i < H; i += blockDim.y*gridDim.y) {
 		float *fai_row_n = (float*)((char*)fai_n + i*pitch);
