@@ -68,8 +68,14 @@ __global__ void SingleNodeFaiIter(float *fai, float *fai_n, size_t pitch, int H,
 {
 	//unsigned int i = blockDim.y*blockIdx.y + threadIdx.y;
 	//unsigned int j = blockDim.x*blockIdx.x + threadIdx.x;
+<<<<<<< HEAD
 	for (int temp = 0; temp < 20; )
 		temp += 1;
+=======
+    int temp;
+    for (temp=0;temp<20;)
+        temp += 1;
+>>>>>>> 10853ed3fc6367264e28fe7f19652bb8e4b8ffea
 	for (int i = blockDim.y*blockIdx.y + threadIdx.y; i < H; i += blockDim.y*gridDim.y) {
 		float *fai_row_n = (float*)((char*)fai_n + i*pitch);
 		for (int j = blockDim.x*blockIdx.x + threadIdx.x; j < W; j += blockDim.x*gridDim.x) {
@@ -194,7 +200,11 @@ void GpuCalculate(float *fai, int H, int W, int my_rank, int comm_sz)
     }
 
     //Launch the kernel and copy boundary data back. All asynchronously
+<<<<<<< HEAD
     for (n = 0; n < 10000; n++){
+=======
+    for (n = 0; n < 1000; n++){
+>>>>>>> 10853ed3fc6367264e28fe7f19652bb8e4b8ffea
     	for (i = 0; i < GPU_N; i++){
     		//Set device
     		checkCudaErrors(cudaSetDevice(i));
